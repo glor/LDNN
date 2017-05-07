@@ -29,14 +29,10 @@ int main(int argc, char *argv[]) {
 	
 	init_network(network, neg_len, neg, pos_len, pos);
 	
-	vector_t *test = gen_train_data(10, 5, 10);
-	PRECISION x, y;
 	float array[2];
-	while(scanf("%f %f", &array[0], &array[1])==2) {
-		printf("%lf\n", classify(network, array));
-	}
-	//for(int i=0; i<10; i++)
-	//	printf("%lf ", classify(network, test[i]));
+	//while(scanf("%f %f", &array[0], &array[1])==2) {
+	//	printf("%lf\n", classify(network, array));
+	//}
 	
 	for(int i=0; i<20; i++) {
 		for(int j=0; j<20; j++) {

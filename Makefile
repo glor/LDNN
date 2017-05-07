@@ -1,5 +1,5 @@
-CC="gcc"
-CFLAGS=-std=c11 -O0 -v -da -Q
+CC="clang"
+CFLAGS=-std=c11# -O0 -v -da -Q
 OBJ := LDNN.o vector.o datamodel.o test.o
 
 all: compile

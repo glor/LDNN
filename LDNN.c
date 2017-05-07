@@ -9,7 +9,6 @@ PRECISION halfspace(network_t *network, int i, int j, vector_t v) {
 	for(int k=0; k<settings.DIM; k++) {
 		sum += wijk * v[k];
 	}
-	//printf("%f %f\n", sum, 1/(1+exp(-sum)));
 	return 1/(1+exp(-sum+bij));
 }
 
