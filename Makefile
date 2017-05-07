@@ -1,7 +1,13 @@
-CC="clang++"
+CC="clang"
+OBJ := LDNN.o vector.o datamodel.o test.o
 
-all:
-	$(CC) -lm -o LDNN LDNN.c
-	
+all: compile
+compile: $(OBJ)
+	$(CC) -lm $(OBJ) -o test
+
+%.o: %.c
+	$(CC) -c $<
+clean:
+	rm -f test *.o
 run: all
-	./LDNN
+	./test
