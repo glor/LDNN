@@ -2,8 +2,7 @@
 #define VECTOR_H
 
 #include<math.h>
-
-#include<signal.h>
+#include<stdio.h>
 
 #include"config.h"
 
