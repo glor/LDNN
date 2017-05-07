@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<time.h>
 #include"config.h"
 #include"vector.h"
 #include"LDNN.h"
+
 
 vector_t *gen_train_data(PRECISION range, PRECISION offset, int amount) {
 	vector_t *data = malloc(amount*sizeof(vector_t));
@@ -16,16 +18,19 @@ vector_t *gen_train_data(PRECISION range, PRECISION offset, int amount) {
 }
 
 int main(int argc, char *argv[]) {
+	
+	srand(time(NULL));
+	
 	settings.N = 5;
 	settings.M = 5;
 	settings.DIM = 2;
+	settings.alpha = 0.001;
 	network_t *network = make_network();
 	
-	vector_t *test2 = gen_train_data(10, 5, 10);
-	int neg_len = 1000;
-	int pos_len = 1000;
+	int neg_len = 100;
+	int pos_len = 100;
 	vector_t *neg = gen_train_data(10, 0, neg_len);
-	vector_t *pos = gen_train_data(10, 5, pos_len);
+	vector_t *pos = gen_train_data(10, 10, pos_len);
 	
 	init_network(network, neg_len, neg, pos_len, pos);
 	

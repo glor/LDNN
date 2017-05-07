@@ -8,5 +8,6 @@ struct {
 	int N;
 	int M;
 	int DIM;
+	PRECISION alpha;
 } settings;
 #endif
