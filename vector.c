@@ -1,5 +1,6 @@
 #include"vector.h"
 
+
 void vector_copy(vector_t src, vector_t dest) {
 	for(int i=0; i<settings.DIM; i++)
 		dest[i] = src[i];
@@ -7,13 +8,20 @@ void vector_copy(vector_t src, vector_t dest) {
 
 void vector_scale(vector_t v, PRECISION s) {
 	for(int i=0; i<settings.DIM; i++)
-		v[i] /= s;
+		v[i] *= s;
+}
+
+void vector_print(vector_t v) {
+	printf("(");
+	for(int i=0; i<settings.DIM; i++)
+		printf("%lf ", v[i]);
+	puts(")");
 }
 
 void vector_normalize(vector_t v) {
 	vector_scale(v, vector_length(v));
 }
-
+int c = 0;
 PRECISION vector_length(vector_t v) {
 	PRECISION sum = 0;
 	for(int i=0; i<settings.DIM; i++) {
@@ -47,18 +55,13 @@ vector_t vector_sub(vector_t x, vector_t y) {
 	return x;
 }
 
-
 void vector_centroid(vector_t centroid, vector_t *data, int start, int amount) {
-	for(int i=0; i<settings.DIM; i++) {
+	for(int i=0; i<settings.DIM; i++)
 		centroid[i] = 0;
-	}
-	for(int i=start; i<start+amount; i++) {
-		for(int j=0; j<settings.DIM; j++) {
-			centroid[i] += data[i][j];
-		}
-	}
+	for(int i=start; i<start+amount; i++)
+		vector_add(centroid, data[i]);
 	PRECISION len = vector_length(centroid);
 	for(int i=0; i<settings.DIM; i++) {
-		centroid[i] /= len;
+		centroid[i] /= amount;
 	}
 }

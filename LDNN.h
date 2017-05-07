@@ -2,6 +2,7 @@
 #define LDNN_H
 
 #include<math.h>
+#include<stdio.h>
 
 #include"config.h"
 #include"vector.h"
