@@ -4,6 +4,7 @@
 
 typedef PRECISION *vector_t;
 
+// hyper params
 struct {
 	int N;
 	int M;
