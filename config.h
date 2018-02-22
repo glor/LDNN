@@ -2,6 +2,8 @@
 #define CONFIG_H
 #define PRECISION float
 
+#define CLUSTER_MAX_ITERATIONS 1000
+
 typedef PRECISION *vector_t;
 
 // hyper params
