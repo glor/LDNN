@@ -74,81 +74,35 @@ vector_t *gen_train_data(PRECISION range, PRECISION offset, int amount) {
 	return data;
 }
 
-vector_t *gen_train_data3(PRECISION maxval, PRECISION minval, int amount) {
-	vector_t *data = malloc(amount*sizeof(vector_t));
-	for(int i=0; i<amount; i++) {
-		data[i] = malloc(settings.DIM*sizeof(PRECISION));
-		for(int j=0; j<settings.DIM; j++) {
-			do {
-				data[i][j] = (rand()%(int)(1000*maxval))/(PRECISION)1000;
-			} while(fabs(data[i][j]) < minval);
-		}
-	}
-	return data;
-}
-
-void test0() {
-	settings.N = 5;
-		settings.M = 5;
-		settings.DIM = 3;
-		settings.alpha = 0.001;
-		network_t *network = make_network();
-	
-		int neg_len = 100;
-		int pos_len = 100;
-		vector_t *neg = gen_train_data(6, 0, neg_len);
-		vector_t *pos = gen_train_data(6, 3, pos_len);
-	
-		init_network(network, neg_len, neg, pos_len, pos);
-	
-		PRECISION array[10];
-	
-		for(int i=0; i<10; i++) {
-			for(int j=0; j<10; j++) {
-				for(int k=0; k<10; k++) {
-					array[0] = i;
-					array[1] = j;
-					array[2] = k;
-					printf("%1.0f ", classify(network, array));
-				}
-				puts("");
-			}
-			puts("");
-		}
-}
-
-void test1() {
-	settings.N = 3;
-	settings.M = 3;
-	settings.DIM = 2;
-	settings.alpha = 0.001;
-	network_t *network = make_network();
-
-	int neg_len = 5;
-	int pos_len = 5;
-	vector_t *neg = gen_train_data3(2, 0, neg_len);
-	vector_t *pos = gen_train_data3(4, 2, pos_len);
-	
-	init_network(network, neg_len, neg, pos_len, pos);
-
-	PRECISION array[10];
-
-	for(int i=-5; i<5; i++) {
-		for(int j=-5; j<5; j++) {
-			array[0] = i;
-			array[1] = j;
-			printf("%1.0f ", classify(network, array));
-		}
-		puts("");
-	}
-}
-
 int main(int argc, char *argv[]) {
 	
 	srand(time(NULL));
-	if(argc==1) {
-		test0();
-	} else {
-		test1();
+	
+	settings.N = 5;
+	settings.M = 5;
+	settings.DIM = 3;
+	settings.alpha = 0.001;
+	network_t *network = make_network();
+	
+	int neg_len = 100;
+	int pos_len = 100;
+	vector_t *neg = gen_train_data(6, 0, neg_len);
+	vector_t *pos = gen_train_data(6, 3, pos_len);
+	
+	init_network(network, neg_len, neg, pos_len, pos);
+	
+	PRECISION array[10];
+	
+	for(int i=0; i<10; i++) {
+		for(int j=0; j<10; j++) {
+			for(int k=0; k<10; k++) {
+				array[0] = i;
+				array[1] = j;
+				array[2] = k;
+				printf("%1.0f ", classify(network, array));
+			}
+			puts("");
+		}
+		puts("");
 	}
 }
