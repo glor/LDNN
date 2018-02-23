@@ -32,15 +32,6 @@ void destroy_network(network_t *network) {
 	// not impl
 }
 
-void vector_centroid(vector_t centroid, vector_t *data, int start, int amount) {
-	for(int i=0; i<settings.DIM; i++)
-		centroid[i] = 0;
-	for(int i=start; i<start+amount; i++)
-		vector_add(centroid, data[i]);
-	PRECISION len = vector_length(centroid);
-	vector_scale(centroid, 1/(PRECISION)amount);
-}
-
 void init_network(network_t *network, int neg_size, vector_t *neg, int pos_size, vector_t *pos) {
 	int N = network->N;
 	int M = network->M;
@@ -48,8 +39,8 @@ void init_network(network_t *network, int neg_size, vector_t *neg, int pos_size,
 	vector_t neg_centroid = malloc(settings.DIM*sizeof(PRECISION));
 	for(int i=0; i<settings.N; i++) {
 		for(int j=0; j<settings.M; j++) {
-			vector_centroid(pos_centroid, pos, i*(pos_size/N), pos_size/N);
-			vector_centroid(neg_centroid, neg, j*(neg_size/M), neg_size/M);
+			vector_centroid2(pos_centroid, pos+i*(pos_size/N), pos_size/N);
+			vector_centroid2(neg_centroid, neg+j*(neg_size/M), neg_size/M);
 			
 			vector_copy(pos_centroid, wij);
 			vector_sub(wij, neg_centroid);

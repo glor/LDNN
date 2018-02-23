@@ -16,4 +16,9 @@ PRECISION vector_scalar_prod(vector_t x, vector_t y);
 vector_t vector_add(vector_t x, vector_t y);
 vector_t vector_sub(vector_t x, vector_t y);
 
+vector_t vector_allocate();
+vector_t *vectors_allocate(int len);
+
+void vector_centroid2(vector_t dest, vector_t *vec, int len);
+
 #endif

@@ -38,16 +38,32 @@ PRECISION vector_scalar_prod(vector_t x, vector_t y) {
 	return sum;
 }
 
-vector_t vector_add(vector_t x, vector_t y) {
+vector_t vector_add(vector_t dest, vector_t src) {
 	for(int i=0; i<settings.DIM; i++) {
-		x[i] += y[i];
+		dest[i] += src[i];
 	}
-	return x;
+	return dest;
 }
-vector_t vector_sub(vector_t x, vector_t y) {
+vector_t vector_sub(vector_t dest, vector_t src) {
 	for(int i=0; i<settings.DIM; i++) {
-		x[i] -= y[i];
+		dest[i] -= src[i];
 	}
-	return x;
+	return dest;
 }
+vector_t vector_allocate() {
+	return malloc(settings.DIM*sizeof(PRECISION));
+}
+
+vector_t *vectors_allocate(int len) {
+	return malloc(len*settings.DIM*sizeof(PRECISION));
+}
+
+void vector_centroid2(vector_t dest, vector_t *vec, int len) {
+	for(int i=0; i<settings.DIM; i++)
+		dest[i] = 0;
+	for(int i=0; i<len; i++)
+		vector_add(dest, vec[i]);
+	vector_scale(dest, 1/(PRECISION)len);
+}
+
 
