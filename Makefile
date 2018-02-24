@@ -2,14 +2,14 @@ CC = clang
 LD = ld
 CFLAGS = -std=c11# -O0 -v -da -Q
 LDFLAGS = -lm #-lstatic
-OBJ = LDNN.o vector.o test.o
+OBJ = LDNN.o clustering.o vector.o test.o
 
 all: tester
 tester: lib
 	$(CC) $(CFLAGS) $(LDFLAGS) libLDDN.a test.c -o test
 
 lib: $(OBJ)
-	$(LD) -r LDNN.o vector.o -o libLDDN.a
+	$(LD) -r LDNN.o clustering.o vector.o -o libLDDN.a
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<

@@ -1,5 +1,6 @@
 #include "config.h"
 #include "vector.h"
+#include "clustering.h"
 #include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
@@ -8,14 +9,6 @@
 
 #define DEBUG(X) //puts(X); fflush(stdout);
 
-
-typedef struct {
-	int data_size;
-	vector_t *data;
-	int classes;
-	int *class;
-	vector_t *centroids;
-} clustering_t;
 
 vector_t *permutate(int len, vector_t *vec) {
 	vector_t tmp;
@@ -114,8 +107,7 @@ void test_vector_centroids_from_class() {
 		vector_print(c.centroids[i]);
 }
 
-
-int main(void) {
+void main2(void) {
 	settings.N = 5;
 	settings.M = 5;
 	settings.DIM = 2;
@@ -124,7 +116,3 @@ int main(void) {
 	test_vector_centroids_from_class();
 	
 }
-
-
-
-
