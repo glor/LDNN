@@ -54,12 +54,17 @@ vector_t vector_sub(vector_t dest, vector_t src) {
 }
 
 PRECISION vector_metric(vector_t x, vector_t y) {
-	vector_t diff = vector_allocate();
+    PRECISION norm = 0;
+	for(int i=0; i<settings.DIM; i++) {
+	    norm += (x[i]-y[i])*(x[i]-y[i]);
+	}
+	return sqrt(norm);
+	/*vector_t diff = vector_allocate();
 	vector_copy(x, diff);
 	vector_sub(diff, y);
 	PRECISION norm = vector_length(diff);
 	free(diff);
-	return norm;
+	return norm;*/
 }
 
 vector_t vector_allocate() {
@@ -87,10 +92,13 @@ void vector_fill(vector_t vec, PRECISION value) {
 		vec[i] = value;
 	}
 }
+#define DEBUG(X) puts(X); fflush(stdout);
 
 void vectors_fill(int len, vector_t *vecs, PRECISION value) {
 	for(int i=0; i<len; i++) {
-		vector_fill(vecs[i], value);
+	    for(int j=0; j<settings.DIM; j++) {
+		    vecs[i][j] = value;
+	    }
 	}
 }
 
