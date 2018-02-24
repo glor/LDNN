@@ -12,3 +12,4 @@ struct {
 	PRECISION alpha;
 } settings;
 #endif
+

@@ -14,7 +14,7 @@ network_t *make_network() {
 	network->N = N;
 	network->M = M;
 	
-	vector_t tmp = malloc(N*M*DIM*sizeof(PRECISION));
+	vector_t tmp = (vector_t)vectors_allocate(N*M);//malloc(N*M*DIM*sizeof(PRECISION));
 	network->weight = malloc(N*sizeof(vector_t *));
 	network->bias   = malloc(N*sizeof(vector_t ));
 	for(int i=0; i<N; i++) {
@@ -35,12 +35,12 @@ void destroy_network(network_t *network) {
 void init_network(network_t *network, int neg_size, vector_t *neg, int pos_size, vector_t *pos) {
 	int N = network->N;
 	int M = network->M;
-	vector_t pos_centroid = malloc(settings.DIM*sizeof(PRECISION));
-	vector_t neg_centroid = malloc(settings.DIM*sizeof(PRECISION));
+	vector_t pos_centroid = vector_allocate();
+	vector_t neg_centroid = vector_allocate();
 	for(int i=0; i<settings.N; i++) {
 		for(int j=0; j<settings.M; j++) {
-			vector_centroid2(pos_centroid, pos+i*(pos_size/N), pos_size/N);
-			vector_centroid2(neg_centroid, neg+j*(neg_size/M), neg_size/M);
+			vector_centroid(pos_centroid, pos+i*(pos_size/N), pos_size/N);
+			vector_centroid(neg_centroid, neg+j*(neg_size/M), neg_size/M);
 			
 			vector_copy(pos_centroid, wij);
 			vector_sub(wij, neg_centroid);
