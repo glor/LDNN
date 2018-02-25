@@ -50,16 +50,19 @@ void write_model(FILE *file, network_t network) {
 	}
 }
 
-vector_t *gen_train_data2(PRECISION range, PRECISION min_dist, PRECISION max_dist, int amount) {
-	vector_t *data = malloc(amount*sizeof(vector_t));
+vector_t *gen_train_data_circle(PRECISION min_dist, PRECISION max_dist, int amount) {
+	vector_t *data = vectors_allocate(amount);
+	vector_t center = vector_allocate();
+	vector_fill(center, 0);
 	for(int i=0; i<amount; i++) {
 		data[i] = malloc(settings.DIM*sizeof(PRECISION));
 		PRECISION dist = 0;
 		do {
 			for(int j=0; j<settings.DIM; j++)
-				data[i][j] = (abs(rand())%(int)(1000*max_dist))/(PRECISION)1000;
-			dist = sqrt(vector_scalar_prod(data[i], data[i]));
-		} while (dist >= min_dist && dist <= max_dist);
+				data[i][j] = (rand()%(int)(1000*2*max_dist))/(PRECISION)1000;
+			dist = vector_metric(data[i], center);
+		} while (dist < min_dist && dist > max_dist);
+        vector_print(data[i]);
 	}
 	return data;
 }
@@ -70,38 +73,60 @@ vector_t *gen_train_data(PRECISION range, PRECISION offset, int amount) {
 		data[i] = malloc(settings.DIM*sizeof(PRECISION));
 		for(int j=0; j<settings.DIM; j++)
 			data[i][j] = (abs(rand())%(int)(1000*range))/(PRECISION)1000 + offset;
+		vector_print(data[i]);
 	}
 	return data;
+}
+// only 2D
+vector_t *gen_train_data_square(PRECISION min_x, PRECISION max_x, PRECISION min_y, PRECISION max_y, int amount) {
+    vector_t *data = vectors_allocate(amount);
+    for(int i=0; i<amount; i++) {
+        PRECISION rx = (rand()%(int)(1000*(max_x-min_x)))/(PRECISION)1000 + min_x;
+        PRECISION ry = (rand()%(int)(1000*(max_y-min_y)))/(PRECISION)1000 + min_y;
+        data[i][0] = rx;
+        data[i][1] = ry;
+        vector_print(data[i]);
+    }
+    return data;
 }
 
 int main(int argc, char *argv[]) {
 	
 	srand(time(NULL));
 	
-	settings.N = 5;
-	settings.M = 5;
-	settings.DIM = 3;
+	settings.N = 10;
+	settings.M = 10;
+	settings.DIM = 2;
 	settings.alpha = 0.001;
+	settings.CLUSTER_ITER = 100;
 	network_t *network = make_network();
 	
-	int neg_len = 100;
-	int pos_len = 100;
-	vector_t *neg = gen_train_data(6, 0, neg_len);
-	vector_t *pos = gen_train_data(6, 3, pos_len);
+	int neg_len = 400;
+	int pos_len = 400;
+	//vector_t *neg = gen_train_data_square(0, 5, pos_len);
+	vector_t *neg = gen_train_data_square(0, 10, 0, 10, neg_len);//(0, 5, 5, 10, 100);
+	//vector_t *neg = vectors_merge(gen_train_data_square(0, 5, neg_len/2), neg_len/2, gen_train_data_square(10, 15, neg_len/2), neg_len/2);
+	puts("");
+	vector_t *pos = gen_train_data_square(3, 8, 3, 8, pos_len);;
+	
+	puts("");
+	fflush(stdout);
 	
 	init_network(network, neg_len, neg, pos_len, pos);
 	
-	PRECISION array[10];
+	PRECISION testvec[settings.DIM];
 	
-	for(int i=0; i<10; i++) {
-		for(int j=0; j<10; j++) {
-			for(int k=0; k<10; k++) {
-				array[0] = i;
-				array[1] = j;
-				array[2] = k;
-				printf("%1.0f ", classify(network, array));
-			}
-			puts("");
+	int dim = 15;
+	
+	for(int i=0; i<dim; i++) {
+		for(int j=0; j<dim; j++) {
+			//for(int k=-5; k<dim; k++) {
+				testvec[0] = i;
+				testvec[1] = j;
+				//testvec[2] = k;
+				printf("%1.0f ", classify(network, testvec));
+			//}
+			//puts("");
 		}
 		puts("");
 	}

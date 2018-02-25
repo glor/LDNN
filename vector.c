@@ -4,8 +4,9 @@
 
 void vector_print(vector_t vec) {
 	printf("(");
-	for(int i=0; i<settings.DIM; i++)
-		printf("%lf ", vec[i]);
+	for(int i=0; i<settings.DIM-1; i++)
+		printf("%lg ", vec[i]);
+	printf("%lg", vec[settings.DIM-1]);
 	puts(")");
 }
 
@@ -102,5 +103,15 @@ void vectors_fill(int len, vector_t *vecs, PRECISION value) {
 	}
 }
 
+vector_t *vectors_merge(vector_t *x, int x_len, vector_t *y, int y_len) {
+    vector_t *new = malloc((x_len+y_len)*sizeof(vector_t));
+    for(int i=0; i<x_len; i++) {
+        new[i] = x[i];
+    }
+    for(int i=0; i<y_len; i++) {
+        new[x_len+i] = y[i];
+    }
+    return new;
+}
 
 

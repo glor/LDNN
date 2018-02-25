@@ -1,4 +1,5 @@
 #include"LDNN.h"
+#include"clustering.h"
 
 #define wijk network->weight[i][j][k]
 #define wij network->weight[i][j]
@@ -37,10 +38,18 @@ void init_network(network_t *network, int neg_size, vector_t *neg, int pos_size,
 	int M = network->M;
 	vector_t pos_centroid = vector_allocate();
 	vector_t neg_centroid = vector_allocate();
+	
+	clustering_t pos_cluster = make_clustering(pos_size, pos, N, settings.CLUSTER_ITER);
+	clustering_t neg_cluster = make_clustering(neg_size, neg, M, settings.CLUSTER_ITER);
+	
 	for(int i=0; i<settings.N; i++) {
 		for(int j=0; j<settings.M; j++) {
-			vector_centroid(pos_centroid, pos+i*(pos_size/N), pos_size/N);
-			vector_centroid(neg_centroid, neg+j*(neg_size/M), neg_size/M);
+		    //vector_centroids_from_class(vector_t *centroids, vector_t *vec, int *class, int classes, int len);
+			//vector_centroid(pos_centroid, pos+i*(pos_size/N), pos_size/N);
+			//vector_centroid(neg_centroid, neg+j*(neg_size/M), neg_size/M);
+			
+			vector_copy(pos_cluster.centroids[i], pos_centroid);
+			vector_copy(neg_cluster.centroids[j], neg_centroid);
 			
 			vector_copy(pos_centroid, wij);
 			vector_sub(wij, neg_centroid);

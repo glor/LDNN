@@ -26,5 +26,6 @@ vector_t vector_add(vector_t dest, vector_t src);
 vector_t vector_sub(vector_t dest, vector_t src);
 
 void vector_centroid(vector_t dest, vector_t *vec, int len);
+vector_t *vectors_merge(vector_t *x, int x_len, vector_t *y, int y_len);
 
 #endif

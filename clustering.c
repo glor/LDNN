@@ -94,15 +94,17 @@ void test_vector_centroids_from_class() {
 	set(pos, 7, 11, 12);
 	set(pos, 8, 0, 8);
 	
-	permutate(n, pos);
+	//permutate(n, pos);
 	for(int i=0; i<n; i++)
 		vector_print(pos[i]);
 	puts("");
 	
 	int classes = 4;
 	clustering_t c = make_clustering(n, pos, classes, 20); // n, vec, classes, iterations
-	for(int i=0; i<n; i++)
-		printf("%d\n", c.class[i]);
+	for(int i=0; i<n; i++) {
+		printf("%d ", c.class[i]);
+		vector_print(pos[i]);
+	}
 	for(int i=0; i<classes; i++)
 		vector_print(c.centroids[i]);
 }
