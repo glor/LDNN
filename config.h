@@ -9,8 +9,7 @@ struct {
 	int N;
 	int M;
 	int DIM;
-	int CLUSTER_ITER;
-	PRECISION alpha;
-} settings;
+	int CLUSTER_ITERATIONS;
+	PRECISION ALPHA;
+} ldnn_settings;
 #endif
-
